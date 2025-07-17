@@ -30,6 +30,37 @@ class Tree {
 
     return rootNode;
   }
+
+  insert(value) {
+    let current = this.root;
+    let parent;
+
+    // Traverse the tree to the proper leaf parent of the new value
+    while (current !== null) {
+      parent = current;
+      if (current.data > value) {
+        current = current.left;
+      } else if (current.data < value) {
+        current = current.right;
+      } else {
+        return this.root;
+      }
+    }
+
+    if (parent.data > value) {
+      parent.left = new Node(value);
+    } else {
+      parent.right = new Node(value);
+    }
+  }
 }
+
+const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+const tree = new Tree(arr);
+
+console.log(prettyPrint(tree.root));
+
+tree.insert(4);
+console.log(prettyPrint(tree.root));
 
 export default Tree;
