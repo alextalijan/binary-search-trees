@@ -1,4 +1,5 @@
 import Node from './Node.js';
+import prettyPrint from './prettyPrint.js';
 
 class Tree {
   constructor(array) {
@@ -13,7 +14,7 @@ class Tree {
 
   sortArray(array) {
     array.sort((a, b) => a - b);
-    const noDuplicatesArray = new Set(array);
+    const noDuplicatesArray = Array.from(new Set(array));
 
     return noDuplicatesArray;
   }
@@ -24,8 +25,8 @@ class Tree {
     const midIndex = startIndex + Math.floor((endIndex - startIndex) / 2);
 
     const rootNode = new Node(array[midIndex]);
-    rootNode.left = this.sortedArrayToBST(startIndex, midIndex - 1);
-    rootNode.right = this.sortedArrayToBST(midIndex + 1, endIndex);
+    rootNode.left = this.sortedArrayToBST(array, startIndex, midIndex - 1);
+    rootNode.right = this.sortedArrayToBST(array, midIndex + 1, endIndex);
 
     return rootNode;
   }
