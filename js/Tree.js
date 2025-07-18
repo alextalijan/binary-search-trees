@@ -145,7 +145,7 @@ class Tree {
     }
   }
 
-  inOrderForEach(callback) {
+  preOrderForEach(callback) {
     if (!callback) {
       throw new Error('Please provide a callback function.');
     }
@@ -164,7 +164,7 @@ class Tree {
     }
   }
 
-  preOrderForEach(callback) {
+  inOrderForEach(callback) {
     if (!callback) {
       throw new Error('Please provide a callback function.');
     }
