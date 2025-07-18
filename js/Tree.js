@@ -144,6 +144,48 @@ class Tree {
       callback(current);
     }
   }
+
+  inOrderForEach(callback) {
+    if (!callback) {
+      throw new Error('Please provide a callback function.');
+    }
+
+    const stack = [this.root];
+    while (stack.length > 0) {
+      const current = stack.pop();
+      if (current.right) {
+        stack.push(current.right);
+      }
+      if (current.left) {
+        stack.push(current.left);
+      }
+
+      callback(current);
+    }
+  }
+
+  preOrderForEach(callback) {
+    if (!callback) {
+      throw new Error('Please provide a callback function.');
+    }
+
+    const stack = [this.root.right, this.root, this.root.left];
+    while (stack.length > 0) {
+      const current = stack.pop();
+
+      callback(current);
+    }
+  }
+
+  postOrderForEach(callback) {
+    if (!callback) {
+      throw new Error('Please provide a callback function.');
+    }
+  }
+}
+
+function printData(node) {
+  console.log(node.data);
 }
 
 const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
