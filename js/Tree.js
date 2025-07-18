@@ -80,39 +80,42 @@ class Tree {
       const nextBiggestNode = this.removeNextBiggestNode(current);
       current.data = nextBiggestNode.data;
     } else {
-      // If the node to remove has children, the tree will continue without the removed node, else just eliminated
-      const replacementChildNode = current.left || current.right;
-      if (parent.left === current) {
-        parent.left = replacementChildNode;
-      } else {
-        parent.right = replacementChildNode;
-      }
+      this.removeNode(current, parent);
     }
   }
 
   removeNextBiggestNode(node) {
     if (node.right === null) {
-      return null;
+      return node;
     }
 
+    let parent = node;
     node = node.right;
-    let parent;
     while (node.left !== null) {
       parent = node;
       node = node.left;
     }
 
-    parent.left = null;
+    this.removeNode(node, parent);
     return node;
+  }
+
+  removeNode(node, parentNode) {
+    const replacementChildNode = node.left || node.right;
+    if (parentNode.left === node) {
+      parentNode.left = replacementChildNode;
+    } else {
+      parentNode.right = replacementChildNode;
+    }
   }
 }
 
-// const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-// const tree = new Tree(arr);
+const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+const tree = new Tree(arr);
 
-// console.log(prettyPrint(tree.root));
+console.log(prettyPrint(tree.root));
 
-// tree.insert(4);
-// console.log(prettyPrint(tree.root));
+tree.deleteItem(8);
+console.log(prettyPrint(tree.root));
 
 export default Tree;
