@@ -125,6 +125,25 @@ class Tree {
 
     return null;
   }
+
+  levelOrderForEach(callback) {
+    if (!callback) {
+      throw new Error('Please provide a callback function.');
+    }
+
+    const queue = [this.root];
+    while (queue.length > 0) {
+      const current = queue.shift();
+      if (current.left) {
+        queue.push(current.left);
+      }
+      if (current.right) {
+        queue.push(current.right);
+      }
+
+      callback(current);
+    }
+  }
 }
 
 const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
