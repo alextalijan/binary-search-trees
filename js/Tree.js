@@ -108,14 +108,28 @@ class Tree {
       parentNode.right = replacementChildNode;
     }
   }
+
+  find(value) {
+    let current = this.root;
+    while (current !== null) {
+      if (current.data === value) {
+        return current;
+      } else {
+        if (current.data > value) {
+          current = current.left;
+        } else {
+          current = current.right;
+        }
+      }
+    }
+
+    return null;
+  }
 }
 
 const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(arr);
 
-console.log(prettyPrint(tree.root));
-
-tree.deleteItem(8);
 console.log(prettyPrint(tree.root));
 
 export default Tree;
