@@ -53,14 +53,50 @@ class Tree {
       parent.right = new Node(value);
     }
   }
+
+  deleteItem(value) {
+    let current = this.root;
+    let parent = null;
+
+    while (current !== null) {
+      if (current.data === value) {
+        break;
+      }
+
+      parent = current;
+      if (current.data > value) {
+        current = current.left;
+      } else {
+        current = current.right;
+      }
+    }
+
+    if (current === null) {
+      return null;
+    }
+
+    // Based on the number of children, perform a different deletion technique
+    if (current.left && current.right) {
+      const nextBiggestNode = removeNextBiggestNode(current);
+      current.data = nextBiggestNode.data;
+    } else {
+      // If the node to remove has children, the tree will continue without the removed node, else just eliminated
+      const replacementChildNode = current.left || current.right;
+      if (parent.left === current) {
+        parent.left = replacementChildNode;
+      } else {
+        parent.right = replacementChildNode;
+      }
+    }
+  }
 }
 
-const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-const tree = new Tree(arr);
+// const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+// const tree = new Tree(arr);
 
-console.log(prettyPrint(tree.root));
+// console.log(prettyPrint(tree.root));
 
-tree.insert(4);
-console.log(prettyPrint(tree.root));
+// tree.insert(4);
+// console.log(prettyPrint(tree.root));
 
 export default Tree;
