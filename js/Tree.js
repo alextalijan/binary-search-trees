@@ -77,7 +77,7 @@ class Tree {
 
     // Based on the number of children, perform a different deletion technique
     if (current.left && current.right) {
-      const nextBiggestNode = removeNextBiggestNode(current);
+      const nextBiggestNode = this.removeNextBiggestNode(current);
       current.data = nextBiggestNode.data;
     } else {
       // If the node to remove has children, the tree will continue without the removed node, else just eliminated
@@ -88,6 +88,22 @@ class Tree {
         parent.right = replacementChildNode;
       }
     }
+  }
+
+  removeNextBiggestNode(node) {
+    if (node.right === null) {
+      return null;
+    }
+
+    node = node.right;
+    let parent;
+    while (node.left !== null) {
+      parent = node;
+      node = node.left;
+    }
+
+    parent.left = null;
+    return node;
   }
 }
 
