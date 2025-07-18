@@ -172,6 +172,15 @@ class Tree {
     const stack = [this.root.right, this.root, this.root.left];
     while (stack.length > 0) {
       const current = stack.pop();
+      if (current !== this.root) {
+        if (current.right) {
+          stack.push(current.right);
+        }
+
+        if (current.left) {
+          stack.push(current.left);
+        }
+      }
 
       callback(current);
     }
@@ -192,5 +201,7 @@ const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(arr);
 
 console.log(prettyPrint(tree.root));
+
+console.log(tree.inOrderForEach(printData));
 
 export default Tree;
