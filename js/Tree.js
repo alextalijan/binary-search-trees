@@ -220,6 +220,23 @@ class Tree {
     heights.sort((a, b) => b - a);
     return heights[0];
   }
+
+  depth(value) {
+    const queue = [{ node: this.root, depth: 0 }];
+    while (queue.length > 0) {
+      const current = queue.shift();
+      if (current.node.data === value) return current.depth;
+
+      if (current.node.left) {
+        queue.push({ node: current.node.left, depth: current.depth + 1 });
+      }
+      if (current.node.right) {
+        queue.push({ node: current.node.right, depth: current.depth + 1 });
+      }
+    }
+
+    return null;
+  }
 }
 
 function printData(node) {
