@@ -195,6 +195,31 @@ class Tree {
 
     callback(root);
   }
+
+  height(value) {
+    const node = this.find(value);
+    if (!node) {
+      return null;
+    }
+
+    const queue = [{ node, height: 0 }];
+    const heights = [];
+    while (queue.length > 0) {
+      const current = queue.shift();
+      if (current.node.left) {
+        queue.push({ node: current.node.left, height: current.height + 1 });
+      }
+      if (current.node.right) {
+        queue.push({ node: current.node.right, height: current.height + 1 });
+      }
+
+      heights.push(current.height);
+    }
+
+    // Sort all of the heights in reverse order, and return the first member
+    heights.sort((a, b) => b - a);
+    return heights[0];
+  }
 }
 
 function printData(node) {
@@ -205,7 +230,5 @@ const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(arr);
 
 console.log(prettyPrint(tree.root));
-
-console.log(tree.postOrderForEach(tree.root, printData));
 
 export default Tree;
