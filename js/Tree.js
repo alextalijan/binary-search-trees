@@ -237,6 +237,27 @@ class Tree {
 
     return null;
   }
+
+  isBalanced() {
+    const queue = [this.root];
+    while (queue.length > 0) {
+      const current = queue.shift();
+      if (
+        Math.abs(this.height(current.left) - this.height(current.right) > 1)
+      ) {
+        return false;
+      }
+
+      if (current.left) {
+        queue.push(current.left);
+      }
+      if (current.right) {
+        queue.push(current.right);
+      }
+    }
+
+    return true;
+  }
 }
 
 function printData(node) {
@@ -247,5 +268,7 @@ const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree = new Tree(arr);
 
 console.log(prettyPrint(tree.root));
+
+console.log(tree.isBalanced());
 
 export default Tree;
