@@ -164,25 +164,18 @@ class Tree {
     }
   }
 
-  inOrderForEach(callback) {
+  inOrderForEach(root, callback) {
     if (!callback) {
       throw new Error('Please provide a callback function.');
     }
+    if (root.left) {
+      this.inOrderForEach(root.left, callback);
+    }
 
-    const stack = [this.root.right, this.root, this.root.left];
-    while (stack.length > 0) {
-      const current = stack.pop();
-      if (current !== this.root) {
-        if (current.right) {
-          stack.push(current.right);
-        }
+    callback(root);
 
-        if (current.left) {
-          stack.push(current.left);
-        }
-      }
-
-      callback(current);
+    if (root.right) {
+      this.inOrderForEach(root.right, callback);
     }
   }
 
@@ -218,6 +211,6 @@ const tree = new Tree(arr);
 
 console.log(prettyPrint(tree.root));
 
-console.log(tree.postOrderForEach(printData));
+console.log(tree.inOrderForEach(tree.root, printData));
 
 export default Tree;
