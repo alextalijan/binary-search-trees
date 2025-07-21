@@ -242,21 +242,41 @@ class Tree {
     const queue = [this.root];
     while (queue.length > 0) {
       const current = queue.shift();
-      if (
-        Math.abs(this.height(current.left) - this.height(current.right) > 1)
-      ) {
-        return false;
+      let leftHeight = 0;
+      let rightHeight = 0;
+      if (current.left) {
+        queue.push(current.left);
+        leftHeight = this.height(current.left.data);
+      }
+      if (current.right) {
+        queue.push(current.right);
+        rightHeight = this.height(current.right.data);
       }
 
+      if (Math.abs(leftHeight - rightHeight) > 1) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  rebalance() {
+    const treeValues = [];
+    const queue = [this.root];
+    while (queue.length > 0) {
+      const current = queue.shift();
       if (current.left) {
         queue.push(current.left);
       }
       if (current.right) {
         queue.push(current.right);
       }
+
+      treeValues.push(current.data);
     }
 
-    return true;
+    this.root = this.buildTree(treeValues);
   }
 }
 
@@ -264,11 +284,54 @@ function printData(node) {
   console.log(node.data);
 }
 
-const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-const tree = new Tree(arr);
+function generateRandomArray(size) {
+  const array = [];
+  for (let i = 0; i < size; i += 1) {
+    const randomNumber = Math.floor(Math.random() * 1000) + 1;
+    array.push(randomNumber);
+  }
 
+  return array;
+}
+
+const randomArray = generateRandomArray(50);
+const tree = new Tree(randomArray);
+
+console.log(`Is the tree balanced: ${tree.isBalanced()}`); // true
 console.log(prettyPrint(tree.root));
 
-console.log(tree.isBalanced());
+console.log('Level order:');
+console.log(tree.levelOrderForEach(printData));
+
+console.log('Pre order:');
+console.log(tree.preOrderForEach(printData));
+
+console.log('In order:');
+console.log(tree.inOrderForEach(tree.root, printData));
+
+console.log('Post order:');
+console.log(tree.postOrderForEach(tree.root, printData));
+
+const newNumbers = generateRandomArray(150);
+for (const num of newNumbers) {
+  tree.insert(num);
+}
+
+console.log(`Is the tree balanced: ${tree.isBalanced()}`); // false
+tree.rebalance();
+
+console.log(`Is the tree balanced: ${tree.isBalanced()}`); // true
+
+console.log('Level order:');
+console.log(tree.levelOrderForEach(printData));
+
+console.log('Pre order:');
+console.log(tree.preOrderForEach(printData));
+
+console.log('In order:');
+console.log(tree.inOrderForEach(tree.root, printData));
+
+console.log('Post order:');
+console.log(tree.postOrderForEach(tree.root, printData));
 
 export default Tree;
